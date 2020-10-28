@@ -224,4 +224,19 @@ public class IPLAnalyser {
 		this.reverseSort(runsList, censusComparator);
 		return toJson(runsList);
 	}
+
+	public String sortAccordingToZero100sAnd50sAndBestAverage() throws IncorrectCSVException {
+		if (runsList.size() == 0) {
+			throw new IncorrectCSVException("No IPL Data");
+		}
+		List<MostRuns> list = new ArrayList<MostRuns>();
+		for (MostRuns runs : runsList) {
+			if (runs.fifties == 0 && runs.hundreds == 0) {
+				list.add(runs);
+			}
+		}
+		Comparator<MostRuns> censusComparator = Comparator.comparing(ipl -> ipl.getAvg());
+		this.reverseSort(list, censusComparator);
+		return toJson(list);
+	}
 }
