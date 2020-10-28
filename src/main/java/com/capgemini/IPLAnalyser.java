@@ -4,6 +4,7 @@ import java.io.IOException;
 import java.io.Reader;
 import java.nio.file.Files;
 import java.nio.file.Paths;
+import java.util.ArrayList;
 import java.util.Comparator;
 import java.util.List;
 
@@ -180,5 +181,22 @@ public class IPLAnalyser {
 		this.reverseSort(wktsList, censusComparator);
 		wktsList.stream().sorted(Comparator.comparing(ipl -> ipl.getAverage()));
 		return toJson(wktsList);
+	}
+
+	public String sortAccordingToBattingAndBowlingAverage() throws IncorrectCSVException {
+		if (wktsList.size() == 0 || wktsList == null) {
+			throw new IncorrectCSVException("No IPL Data");
+		}
+		List<RunsAndWkts> runsAndWktsList = new ArrayList<RunsAndWkts>();
+		for (MostRuns runs : runsList) {
+			for (MostWkts wkts : wktsList) {
+				if (runs.Player.equals(wkts.player)) {
+					runsAndWktsList.add(new RunsAndWkts(runs.Player, runs.getAvg(), wkts.getAverage()));
+				}
+			}
+		}
+		Comparator<RunsAndWkts> censusComparator = Comparator.comparing(ipl -> ipl.battingAvg * ipl.bowlingAvg);
+		this.reverseSort(runsAndWktsList, censusComparator);
+		return toJson(runsAndWktsList);
 	}
 }
