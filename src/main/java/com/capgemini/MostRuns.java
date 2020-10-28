@@ -18,7 +18,7 @@ public class MostRuns {
 	@CsvBindByName
 	public String HS;
 	@CsvBindByName
-	public String Avg;
+	private String Avg;
 	@CsvBindByName
 	public int BF;
 	@CsvBindByName
@@ -31,6 +31,16 @@ public class MostRuns {
 	public int fours;
 	@CsvBindByName
 	public int sixes;
+	
+	public double getAvg() {
+		if(Avg.equals("-"))
+			return 0;
+		else
+			return Double.parseDouble(Avg);
+	}
+	public void setAvg(String avg) {
+		Avg = avg;
+	}
 	
 
 }
