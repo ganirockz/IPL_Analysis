@@ -116,4 +116,17 @@ public class IPLAnalyserTest {
 		MostWkts[] censusCsv = new Gson().fromJson(sortedData, MostWkts[].class);
 		Assert.assertEquals("Krishnappa Gowtham", censusCsv[0].player);
 	}
+
+	@Test
+	public void givenMostWktsCSVFile_ShouldLoadAndSortAccordingToStrikeRates() {
+		String sortedData = null;
+		try {
+			sortedData = iplAnalyser.sortAccordingToBowlersStrikeRate();
+		} catch (IncorrectCSVException e) {
+			System.out.println(e.getMessage());
+		}
+		System.out.println(sortedData);
+		MostWkts[] censusCsv = new Gson().fromJson(sortedData, MostWkts[].class);
+		Assert.assertEquals("Krishnappa Gowtham", censusCsv[0].player);
+	}
 }

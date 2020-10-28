@@ -28,10 +28,8 @@ public class IPLAnalyser {
 	public int loadMostWktsCSV(String path) throws IncorrectCSVException {
 		try {
 			Reader reader = Files.newBufferedReader(Paths.get(path));
-			CsvToBeanBuilder<MostWkts> csvToBeanBuilder = new CsvToBeanBuilder<MostWkts>(reader);
-			csvToBeanBuilder.withType(MostWkts.class);
-			csvToBeanBuilder.withIgnoreLeadingWhiteSpace(true);
-			wktsList = csvToBeanBuilder.build().parse();
+			ICSVBuilder icsvBuilder = CSVBuildFactory.createCSVBuilder();
+			wktsList = icsvBuilder.getCSVFileList(reader, MostWkts.class);
 			return wktsList.size();
 		} catch (IOException e) {
 			throw new IncorrectCSVException("The file is not correct");
@@ -118,6 +116,15 @@ public class IPLAnalyser {
 			throw new IncorrectCSVException("No IPL Data");
 		}
 		Comparator<MostWkts> censusComparator = Comparator.comparing(ipl -> ipl.getAverage());
+		this.reverseSort(wktsList, censusComparator);
+		return toJson(wktsList);
+	}
+
+	public String sortAccordingToBowlersStrikeRate() throws IncorrectCSVException {
+		if (wktsList.size() == 0 || wktsList == null) {
+			throw new IncorrectCSVException("No IPL Data");
+		}
+		Comparator<MostWkts> censusComparator = Comparator.comparing(ipl -> ipl.getStrikeRate());
 		this.reverseSort(wktsList, censusComparator);
 		return toJson(wktsList);
 	}
