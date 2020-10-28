@@ -174,6 +174,6 @@ public class IPLAnalyserTest {
 		}
 		System.out.println(sortedData);
 		MostWkts[] censusCsv = new Gson().fromJson(sortedData, MostWkts[].class);
-		Assert.assertEquals("Imran Tahir", censusCsv[0].player);
+		Assert.assertEquals("Deepak Chahar", censusCsv[0].player);
 	}
 }

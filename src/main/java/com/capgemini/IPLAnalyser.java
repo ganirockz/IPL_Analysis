@@ -176,9 +176,8 @@ public class IPLAnalyser {
 		if (wktsList.size() == 0 || wktsList == null) {
 			throw new IncorrectCSVException("No IPL Data");
 		}
-		Comparator<MostWkts> censusComparator = Comparator.comparing(ipl -> ipl.getWickets());
+		Comparator<MostWkts> censusComparator = Comparator.comparing(ipl -> ipl.getWickets() * ipl.getAverage());
 		this.reverseSort(wktsList, censusComparator);
-		wktsList.stream().sorted(Comparator.comparing(ipl -> ipl.getAverage()));
 		return toJson(wktsList);
 	}
 }
