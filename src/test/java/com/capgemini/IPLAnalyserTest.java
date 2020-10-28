@@ -43,9 +43,24 @@ public class IPLAnalyserTest {
 		} catch (IncorrectCSVException e) {
 			System.out.println(e.getMessage());
 		}
-		System.out.println(sortedData);
 		MostRuns[] censusCsv = new Gson().fromJson(sortedData, MostRuns[].class);
 		Assert.assertEquals("MS Dhoni", censusCsv[0].Player);
+	}
+
+	@Test
+	public void givenMostRunsCSVFile_ShouldLoadAndSortAccordingToStrikeRate() {
+		IPLAnalyser iplAnalyser = new IPLAnalyser();
+		int noOfEntries = 0;
+		String sortedData = null;
+		try {
+			noOfEntries = iplAnalyser.loadMostRunsCSV(mostRunsCSVFile);
+			sortedData = iplAnalyser.sortAccordingToStrikeRate();
+		} catch (IncorrectCSVException e) {
+			System.out.println(e.getMessage());
+		}
+		System.out.println(sortedData);
+		MostRuns[] censusCsv = new Gson().fromJson(sortedData, MostRuns[].class);
+		Assert.assertEquals("Ishant Sharma", censusCsv[0].Player);
 	}
 
 }
