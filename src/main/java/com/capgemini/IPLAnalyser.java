@@ -89,4 +89,15 @@ public class IPLAnalyser {
 		return json;
 	}
 
+	public String sortAccordingToBestAverageAndBestStrikeRate() throws IncorrectCSVException {
+		if (runsList.size() == 0) {
+			throw new IncorrectCSVException("No IPL Data");
+		}
+		Comparator<MostRuns> censusComparator = Comparator.comparing(ipl -> ipl.getAvg());
+		this.reverseSort(runsList, censusComparator);
+		runsList.stream().sorted(Comparator.comparing(ipl -> ipl.SR));
+		String json = new Gson().toJson(runsList);
+		return json;
+	}
+
 }
