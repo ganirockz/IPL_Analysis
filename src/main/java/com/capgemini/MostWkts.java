@@ -23,7 +23,7 @@ public class MostWkts {
 	@CsvBindByName(column = "Avg")
 	private String average;
 	@CsvBindByName(column = "Econ")
-	public String economy;
+	private String economy;
 	@CsvBindByName(column = "SR")
 	private String strikeRate;
 	@CsvBindByName(column = "4w")
@@ -42,12 +42,20 @@ public class MostWkts {
 	public void setAverage(String average) {
 		this.average = average;
 	}
-	
+
 	public double getStrikeRate() {
 		if (this.strikeRate.equals("-")) {
 			return 0;
 		} else {
 			return Double.parseDouble(strikeRate);
+		}
+	}
+
+	public double getEconomy() {
+		if (this.economy.equals("-")) {
+			return 0;
+		} else {
+			return Double.parseDouble(economy);
 		}
 	}
 }
