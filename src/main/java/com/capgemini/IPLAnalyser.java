@@ -129,4 +129,25 @@ public class IPLAnalyser {
 		return toJson(wktsList);
 	}
 
+	public String sortAccordingToEconomy() throws IncorrectCSVException {
+		if (wktsList.size() == 0 || wktsList == null) {
+			throw new IncorrectCSVException("No IPL Data");
+		}
+		Comparator<MostWkts> censusComparator = Comparator.comparing(ipl -> ipl.getEconomy());
+		this.sort(wktsList, censusComparator);
+		return toJson(wktsList);
+	}
+
+	private <E> void sort(List<E> list, Comparator<E> censusComparator) {
+		for (int i = 0; i < list.size() - 1; i++) {
+			for (int j = 0; j < list.size() - 1; j++) {
+				E census1 = list.get(j);
+				E census2 = list.get(j + 1);
+				if (censusComparator.compare(census1, census2) > 0) {
+					list.set(j, census2);
+					list.set(j + 1, census1);
+				}
+			}
+		}
+	}
 }
