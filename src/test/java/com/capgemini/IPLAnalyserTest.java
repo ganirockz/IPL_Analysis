@@ -64,6 +64,18 @@ public class IPLAnalyserTest {
 		} catch (IncorrectCSVException e) {
 			System.out.println(e.getMessage());
 		}
+		MostRuns[] censusCsv = new Gson().fromJson(sortedData, MostRuns[].class);
+		Assert.assertEquals("Andre Russell", censusCsv[0].Player);
+	}
+
+	@Test
+	public void givenMostRunsCSVFile_ShouldLoadAndSortAccordingToMost6sAnd4sAndBestStrikeRates() {
+		String sortedData = null;
+		try {
+			sortedData = iplAnalyser.sortAccordingToMostSixesAndFoursAndBestStrikeRate();
+		} catch (IncorrectCSVException e) {
+			System.out.println(e.getMessage());
+		}
 		System.out.println(sortedData);
 		MostRuns[] censusCsv = new Gson().fromJson(sortedData, MostRuns[].class);
 		Assert.assertEquals("Andre Russell", censusCsv[0].Player);
