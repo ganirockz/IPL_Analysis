@@ -152,4 +152,16 @@ public class IPLAnalyserTest {
 		Assert.assertEquals("Imran Tahir", censusCsv[0].player);
 	}
 
+	@Test
+	public void givenMostWktsCSVFile_ShouldLoadAndSortAccordingToStrikeRateAndAverage() {
+		String sortedData = null;
+		try {
+			sortedData = iplAnalyser.sortAccordingToStrikeRateAndAverage();
+		} catch (IncorrectCSVException e) {
+			System.out.println(e.getMessage());
+		}
+		System.out.println(sortedData);
+		MostWkts[] censusCsv = new Gson().fromJson(sortedData, MostWkts[].class);
+		Assert.assertEquals("Krishnappa Gowtham", censusCsv[0].player);
+	}
 }
