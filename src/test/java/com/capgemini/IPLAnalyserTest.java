@@ -6,7 +6,7 @@ import com.google.gson.Gson;
 
 public class IPLAnalyserTest {
 	public final String mostRunsCSVFile = "./MostRuns.csv";
-	public final String mostWktsCSVFile = "./MostRuns.csv";
+	public final String mostWktsCSVFile = "./MostWkts.csv";
 	int MostRunsCSVEntries = 0, MostWktsCSVEntries = 0;
 	IPLAnalyser iplAnalyser = null;
 
@@ -29,7 +29,7 @@ public class IPLAnalyserTest {
 	@Test
 	public void givenMostWktsCSVFile_ShouldLoadAndReturnEntries() {
 
-		Assert.assertEquals(101, MostWktsCSVEntries);
+		Assert.assertEquals(99, MostWktsCSVEntries);
 	}
 
 	@Test
@@ -100,8 +100,20 @@ public class IPLAnalyserTest {
 		} catch (IncorrectCSVException e) {
 			System.out.println(e.getMessage());
 		}
-		System.out.println(sortedData);
 		MostRuns[] censusCsv = new Gson().fromJson(sortedData, MostRuns[].class);
 		Assert.assertEquals("David Warner", censusCsv[0].Player);
+	}
+
+	@Test
+	public void givenMostWktsCSVFile_ShouldLoadAndSortAccordingBowlingAverage() {
+		String sortedData = null;
+		try {
+			sortedData = iplAnalyser.sortAccordingToBowlingAverage();
+		} catch (IncorrectCSVException e) {
+			System.out.println(e.getMessage());
+		}
+		System.out.println(sortedData);
+		MostWkts[] censusCsv = new Gson().fromJson(sortedData, MostWkts[].class);
+		Assert.assertEquals("Krishnappa Gowtham", censusCsv[0].player);
 	}
 }
