@@ -41,8 +41,7 @@ public class IPLAnalyser {
 		}
 		Comparator<MostRuns> censusComparator = Comparator.comparing(ipl -> ipl.getAvg());
 		this.reverseSort(runsList, censusComparator);
-		String json = new Gson().toJson(runsList);
-		return json;
+		return MostRunstoJson();
 	}
 
 	private void reverseSort(List<MostRuns> list, Comparator<MostRuns> censusComparator) {
@@ -64,8 +63,7 @@ public class IPLAnalyser {
 		}
 		Comparator<MostRuns> censusComparator = Comparator.comparing(ipl -> ipl.SR);
 		this.reverseSort(runsList, censusComparator);
-		String json = new Gson().toJson(runsList);
-		return json;
+		return MostRunstoJson();
 	}
 
 	public String sortAccordingToMostSixesAndFours() throws IncorrectCSVException {
@@ -74,8 +72,7 @@ public class IPLAnalyser {
 		}
 		Comparator<MostRuns> censusComparator = Comparator.comparing(ipl -> ipl.sixes + ipl.fours);
 		this.reverseSort(runsList, censusComparator);
-		String json = new Gson().toJson(runsList);
-		return json;
+		return MostRunstoJson();
 	}
 
 	public String sortAccordingToMostSixesAndFoursAndBestStrikeRate() throws IncorrectCSVException {
@@ -85,8 +82,7 @@ public class IPLAnalyser {
 		Comparator<MostRuns> censusComparator = Comparator.comparing(ipl -> ipl.sixes + ipl.fours);
 		this.reverseSort(runsList, censusComparator);
 		runsList.stream().sorted(Comparator.comparing(ipl -> ipl.SR));
-		String json = new Gson().toJson(runsList);
-		return json;
+		return MostRunstoJson();
 	}
 
 	public String sortAccordingToBestAverageAndBestStrikeRate() throws IncorrectCSVException {
@@ -96,6 +92,20 @@ public class IPLAnalyser {
 		Comparator<MostRuns> censusComparator = Comparator.comparing(ipl -> ipl.getAvg());
 		this.reverseSort(runsList, censusComparator);
 		runsList.stream().sorted(Comparator.comparing(ipl -> ipl.SR));
+		return MostRunstoJson();
+	}
+
+	public String sortAccordingToMostRunsScoredAndBestStrikeRate() throws IncorrectCSVException {
+		if (runsList.size() == 0) {
+			throw new IncorrectCSVException("No IPL Data");
+		}
+		Comparator<MostRuns> censusComparator = Comparator.comparing(ipl -> ipl.Runs);
+		this.reverseSort(runsList, censusComparator);
+		runsList.stream().sorted(Comparator.comparing(ipl -> ipl.SR));
+		return MostRunstoJson();
+	}
+	
+	public String MostRunstoJson() {
 		String json = new Gson().toJson(runsList);
 		return json;
 	}
