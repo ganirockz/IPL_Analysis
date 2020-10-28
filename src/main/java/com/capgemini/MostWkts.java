@@ -27,7 +27,7 @@ public class MostWkts {
 	@CsvBindByName(column = "SR")
 	private String strikeRate;
 	@CsvBindByName(column = "4w")
-	public String fourWickets;
+	private String fourWickets;
 	@CsvBindByName(column = "5w")
 	public String fiveWickets;
 
@@ -56,6 +56,22 @@ public class MostWkts {
 			return 0;
 		} else {
 			return Double.parseDouble(economy);
+		}
+	}
+
+	public double getFourWickets() {
+		if (this.fourWickets.equals("-")) {
+			return 0;
+		} else {
+			return Double.parseDouble(fourWickets);
+		}
+	}
+
+	public double getFiveWickets() {
+		if (this.fiveWickets.equals("-")) {
+			return 0;
+		} else {
+			return Double.parseDouble(fiveWickets);
 		}
 	}
 }
