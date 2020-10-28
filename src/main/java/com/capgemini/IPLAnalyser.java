@@ -14,6 +14,7 @@ import com.opencsv.bean.CsvToBeanBuilder;
 public class IPLAnalyser {
 	List<MostRuns> runsList = null;
 	List<MostWkts> wktsList = null;
+	List<RunsAndWkts> runsAndWktsList = null;
 
 	public int loadMostRunsCSV(String filePath) throws IncorrectCSVException {
 		try {
@@ -187,15 +188,30 @@ public class IPLAnalyser {
 		if (wktsList.size() == 0 || wktsList == null) {
 			throw new IncorrectCSVException("No IPL Data");
 		}
-		List<RunsAndWkts> runsAndWktsList = new ArrayList<RunsAndWkts>();
+		createList();
+		Comparator<RunsAndWkts> censusComparator = Comparator.comparing(ipl -> ipl.battingAvg * ipl.bowlingAvg);
+		this.reverseSort(runsAndWktsList, censusComparator);
+		return toJson(runsAndWktsList);
+	}
+
+	private void createList() {
+		runsAndWktsList = new ArrayList<RunsAndWkts>();
 		for (MostRuns runs : runsList) {
 			for (MostWkts wkts : wktsList) {
 				if (runs.Player.equals(wkts.player)) {
-					runsAndWktsList.add(new RunsAndWkts(runs.Player, runs.getAvg(), wkts.getAverage()));
+					runsAndWktsList.add(new RunsAndWkts(runs.Player, runs.getAvg(), wkts.getAverage(), runs.Runs,
+							wkts.getWickets()));
 				}
 			}
 		}
-		Comparator<RunsAndWkts> censusComparator = Comparator.comparing(ipl -> ipl.battingAvg * ipl.bowlingAvg);
+	}
+
+	public String sortAccordingToMostRunsAndWickets() throws IncorrectCSVException {
+		if (wktsList.size() == 0 || wktsList == null) {
+			throw new IncorrectCSVException("No IPL Data");
+		}
+		createList();
+		Comparator<RunsAndWkts> censusComparator = Comparator.comparing(ipl -> ipl.runs * ipl.wickets);
 		this.reverseSort(runsAndWktsList, censusComparator);
 		return toJson(runsAndWktsList);
 	}
