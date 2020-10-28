@@ -7,38 +7,35 @@ import com.google.gson.Gson;
 public class IPLAnalyserTest {
 	public final String mostRunsCSVFile = "./MostRuns.csv";
 	public final String mostWktsCSVFile = "./MostRuns.csv";
+	int MostRunsCSVEntries = 0, MostWktsCSVEntries = 0;
+	IPLAnalyser iplAnalyser = null;
 
-	@Test
-	public void givenMostRunsCSVFile_ShouldLoadAndReturnEntries() {
-		IPLAnalyser iplAnalyser = new IPLAnalyser();
-		int noOfEntries = 0;
+	@Before
+	public void setUp() {
+		iplAnalyser = new IPLAnalyser();
 		try {
-			noOfEntries = iplAnalyser.loadMostRunsCSV(mostRunsCSVFile);
+			MostRunsCSVEntries = iplAnalyser.loadMostRunsCSV(mostRunsCSVFile);
+			MostWktsCSVEntries = iplAnalyser.loadMostWktsCSV(mostWktsCSVFile);
 		} catch (IncorrectCSVException e) {
 			System.out.println(e.getMessage());
 		}
-		Assert.assertEquals(101, noOfEntries);
+	}
+
+	@Test
+	public void givenMostRunsCSVFile_ShouldLoadAndReturnEntries() {
+		Assert.assertEquals(101, MostRunsCSVEntries);
 	}
 
 	@Test
 	public void givenMostWktsCSVFile_ShouldLoadAndReturnEntries() {
-		IPLAnalyser iplAnalyser = new IPLAnalyser();
-		int noOfEntries = 0;
-		try {
-			noOfEntries = iplAnalyser.loadMostWktsCSV(mostWktsCSVFile);
-		} catch (IncorrectCSVException e) {
-			System.out.println(e.getMessage());
-		}
-		Assert.assertEquals(101, noOfEntries);
+
+		Assert.assertEquals(101, MostWktsCSVEntries);
 	}
 
 	@Test
 	public void givenMostRunsCSVFile_ShouldLoadAndSortAccordingBattingAverage() {
-		IPLAnalyser iplAnalyser = new IPLAnalyser();
-		int noOfEntries = 0;
 		String sortedData = null;
 		try {
-			noOfEntries = iplAnalyser.loadMostRunsCSV(mostRunsCSVFile);
 			sortedData = iplAnalyser.sortAccordingToBattingAverage();
 		} catch (IncorrectCSVException e) {
 			System.out.println(e.getMessage());
@@ -49,18 +46,26 @@ public class IPLAnalyserTest {
 
 	@Test
 	public void givenMostRunsCSVFile_ShouldLoadAndSortAccordingToStrikeRate() {
-		IPLAnalyser iplAnalyser = new IPLAnalyser();
-		int noOfEntries = 0;
 		String sortedData = null;
 		try {
-			noOfEntries = iplAnalyser.loadMostRunsCSV(mostRunsCSVFile);
 			sortedData = iplAnalyser.sortAccordingToStrikeRate();
+		} catch (IncorrectCSVException e) {
+			System.out.println(e.getMessage());
+		}
+		MostRuns[] censusCsv = new Gson().fromJson(sortedData, MostRuns[].class);
+		Assert.assertEquals("Ishant Sharma", censusCsv[0].Player);
+	}
+
+	@Test
+	public void givenMostRunsCSVFile_ShouldLoadAndSortAccordingToMostSixes() {
+		String sortedData = null;
+		try {
+			sortedData = iplAnalyser.sortAccordingToMostSixesAndFours();
 		} catch (IncorrectCSVException e) {
 			System.out.println(e.getMessage());
 		}
 		System.out.println(sortedData);
 		MostRuns[] censusCsv = new Gson().fromJson(sortedData, MostRuns[].class);
-		Assert.assertEquals("Ishant Sharma", censusCsv[0].Player);
+		Assert.assertEquals("Andre Russell", censusCsv[0].Player);
 	}
-
 }
