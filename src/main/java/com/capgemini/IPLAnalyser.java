@@ -150,4 +150,16 @@ public class IPLAnalyser {
 			}
 		}
 	}
+
+	public String sortAccordingToStrikeRateAnd4w5w() throws IncorrectCSVException {
+		if (wktsList.size() == 0 || wktsList == null) {
+			throw new IncorrectCSVException("No IPL Data");
+		}
+		Comparator<MostWkts> censusComparator = Comparator
+				.comparing(ipl -> ipl.getFourWickets() + ipl.getFiveWickets());
+		this.reverseSort(wktsList, censusComparator);
+		wktsList.stream().sorted(Comparator.comparing(ipl -> ipl.getStrikeRate()));
+		return toJson(wktsList);
+	}
+
 }
