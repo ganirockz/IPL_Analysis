@@ -80,7 +80,7 @@ public class IPLAnalyserTest {
 		Assert.assertEquals("Andre Russell", censusCsv[0].Player);
 	}
 
-	@Test  
+	@Test
 	public void givenMostRunsCSVFile_ShouldLoadAndSortAccordingToBestBattingAverageAndBestStrikeRates() {
 		String sortedData = null;
 		try {
@@ -88,8 +88,20 @@ public class IPLAnalyserTest {
 		} catch (IncorrectCSVException e) {
 			System.out.println(e.getMessage());
 		}
-		System.out.println(sortedData);
 		MostRuns[] censusCsv = new Gson().fromJson(sortedData, MostRuns[].class);
 		Assert.assertEquals("MS Dhoni", censusCsv[0].Player);
+	}
+
+	@Test
+	public void givenMostRunsCSVFile_ShouldLoadAndSortAccordingToMostRunsScoredAndBestStrikeRates() {
+		String sortedData = null;
+		try {
+			sortedData = iplAnalyser.sortAccordingToMostRunsScoredAndBestStrikeRate();
+		} catch (IncorrectCSVException e) {
+			System.out.println(e.getMessage());
+		}
+		System.out.println(sortedData);
+		MostRuns[] censusCsv = new Gson().fromJson(sortedData, MostRuns[].class);
+		Assert.assertEquals("David Warner", censusCsv[0].Player);
 	}
 }
