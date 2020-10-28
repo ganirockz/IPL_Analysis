@@ -31,6 +31,13 @@ public class MostWkts {
 	@CsvBindByName(column = "5w")
 	public String fiveWickets;
 
+	public int getWickets() {
+		if (this.wickets.equals("-"))
+			return 0;
+		else
+			return Integer.parseInt(wickets);
+	}
+
 	public double getAverage() {
 		if (this.average.equals("-")) {
 			return 0;

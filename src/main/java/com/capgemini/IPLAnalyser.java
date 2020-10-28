@@ -171,4 +171,14 @@ public class IPLAnalyser {
 		wktsList.stream().sorted(Comparator.comparing(ipl -> ipl.getStrikeRate()));
 		return toJson(wktsList);
 	}
+
+	public String sortAccordingToWicketsAndAverage() throws IncorrectCSVException {
+		if (wktsList.size() == 0 || wktsList == null) {
+			throw new IncorrectCSVException("No IPL Data");
+		}
+		Comparator<MostWkts> censusComparator = Comparator.comparing(ipl -> ipl.getWickets());
+		this.reverseSort(wktsList, censusComparator);
+		wktsList.stream().sorted(Comparator.comparing(ipl -> ipl.getAverage()));
+		return toJson(wktsList);
+	}
 }
