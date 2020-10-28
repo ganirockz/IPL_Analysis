@@ -215,4 +215,13 @@ public class IPLAnalyser {
 		this.reverseSort(runsAndWktsList, censusComparator);
 		return toJson(runsAndWktsList);
 	}
+
+	public String sortAccordingToMost100sAndBestAverage() throws IncorrectCSVException {
+		if (runsList.size() == 0) {
+			throw new IncorrectCSVException("No IPL Data");
+		}
+		Comparator<MostRuns> censusComparator = Comparator.comparing(ipl -> ipl.hundreds * ipl.getAvg());
+		this.reverseSort(runsList, censusComparator);
+		return toJson(runsList);
+	}
 }
